@@ -1,0 +1,42 @@
+package com.uol.compasso.productms.repository.product;
+
+import com.uol.compasso.productms.model.ProductSearchParam;
+import com.uol.compasso.productms.model.entity.Product;
+import com.uol.compasso.productms.repository.SearchCriteria;
+import org.springframework.data.jpa.domain.Specification;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+public class ProductSpecification implements Specification<Product> {
+
+    private final SearchCriteria criteria;
+
+    public ProductSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
+    }
+
+    @Override
+    public Predicate toPredicate
+            (Root<Product> productRoot, CriteriaQuery<?> query, CriteriaBuilder builder) {
+
+        if (this.criteria.getOperation().equalsIgnoreCase(">")) {
+            return builder.greaterThan(
+                    productRoot.<String>get(this.criteria.getKey()), this.criteria.getValue().toString());
+        } else if (this.criteria.getOperation().equalsIgnoreCase("<")) {
+            return builder.lessThan(
+                    productRoot.<String>get(this.criteria.getKey()), this.criteria.getValue().toString());
+        } else if (this.criteria.getOperation().equalsIgnoreCase(">=")) {
+            return builder.greaterThanOrEqualTo(
+                    productRoot.<String>get(this.criteria.getKey()), this.criteria.getValue().toString());
+        } else if (this.criteria.getOperation().equalsIgnoreCase("<=")) {
+            return builder.lessThanOrEqualTo(
+                    productRoot.<String>get(this.criteria.getKey()), this.criteria.getValue().toString());
+        } else if (this.criteria.getOperation().equalsIgnoreCase("like")) {
+            return builder.like(builder.lower(productRoot.<String>get(this.criteria.getKey())), "%" + this.criteria.getValue().toString().toLowerCase() + "%");
+        }
+        return null;
+    }
+}
