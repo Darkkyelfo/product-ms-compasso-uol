@@ -1,52 +1,42 @@
 package com.uol.compasso.productms.exception;
 
 
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.uol.compasso.productms.dto.ErrorDTO;
 import lombok.AllArgsConstructor;
-import org.hibernate.exception.JDBCConnectionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
-import org.springframework.http.HttpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.io.EOFException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @ControllerAdvice
 @AllArgsConstructor
 public class GlobalExceptionHandlingControllerAdvice {
 
+    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandlingControllerAdvice.class.getName());
+
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseBody
-    public ResponseEntity<ErrorDTO> prodcutNotFoundException(ProductNotFoundException ex) throws Exception {
+    public ResponseEntity<ErrorDTO> prodcutNotFoundException(ProductNotFoundException ex)  {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setStatus(404);
         errorDTO.setMessage(ex.getMessage());
+        logger.debug(ex.getMessage());
         return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
     }
 
     @ExceptionHandler(ParamsInvalidException.class)
     @ResponseBody
-    public ResponseEntity<ErrorDTO> ParamsInvalidException(ParamsInvalidException ex) throws Exception {
+    public ResponseEntity<ErrorDTO> ParamsInvalidException(ParamsInvalidException ex)  {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setStatus(400);
         errorDTO.setMessage(ex.getMessage());
+        logger.debug(ex.getMessage());
         return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
     }
 
@@ -60,8 +50,28 @@ public class GlobalExceptionHandlingControllerAdvice {
         } else {
             errorDTO.setMessage(ex.getMessage());
         }
+        logger.error(ex.getMessage());
         return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
     }
 
+    @ExceptionHandler(SQLException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorDTO> sqlException(SQLException ex) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setStatus(500);
+        errorDTO.setMessage("Failed to perform query");
+        logger.error(ex.getMessage());
+        return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResponseEntity<ErrorDTO> generalException(SQLException ex) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setStatus(500);
+        errorDTO.setMessage("Failed");
+        logger.error(ex.getMessage());
+        return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
+    }
 
 }

@@ -11,6 +11,9 @@ public class ProductMapper {
 
 
     public static ProductDTO productToDTO(Product product) {
+        if (product == null) {
+            return new ProductDTO();
+        }
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(product, ProductDTO.class);
     }

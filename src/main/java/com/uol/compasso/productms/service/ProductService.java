@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.uol.compasso.productms.util.GeneralMessages.SUCCESS_TO_DELETE;
+
 @Service
 public class ProductService {
 
@@ -26,10 +28,11 @@ public class ProductService {
     }
 
     public ProductDTO getOne(Long id) throws ProductNotFoundException {
-        if (this.productRepository.findById(id).isEmpty()) {
+        Product product = this.productRepository.findById(id).orElse(null);
+        if (product == null) {
             throw new ProductNotFoundException(id);
         }
-        return ProductMapper.productToDTO(this.productRepository.getById(id));
+        return ProductMapper.productToDTO(product);
 
     }
 
@@ -68,19 +71,19 @@ public class ProductService {
     }
 
     public String deleteProduct(Long id) throws ProductNotFoundException {
-        if (this.productRepository.findById(id).isEmpty()) {
+        Product product = this.productRepository.findById(id).orElse(null);
+        if (product == null) {
             throw new ProductNotFoundException(id);
         }
-        Product product = this.productRepository.getById(id);
         this.productRepository.delete(product);
-        return "Item deleted successfully";
+        return SUCCESS_TO_DELETE.get();
     }
 
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) throws ProductNotFoundException {
-        if (this.productRepository.findById(id).isEmpty()) {
+        Product product = this.productRepository.findById(id).orElse(null);
+        if (product == null) {
             throw new ProductNotFoundException(id);
         }
-        Product product = this.productRepository.getById(id);
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
         product.setDescription(productDTO.getDescription());

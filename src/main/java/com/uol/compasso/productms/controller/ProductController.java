@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public class ProductController {
 
-    @Autowired
+    @Autowired()
     private ProductService productService;
 
     @GetMapping()
