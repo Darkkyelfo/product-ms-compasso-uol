@@ -10,7 +10,8 @@
 	</parent>
 	<groupId>com.uol.compasso</groupId>
 	<artifactId>product-ms</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
 	<name>product-ms</name>
 	<description>Teste técnico para recrutamento compasso uol</description>
 	<properties>
