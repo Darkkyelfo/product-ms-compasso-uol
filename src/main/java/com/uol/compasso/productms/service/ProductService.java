@@ -1,5 +1,6 @@
 package com.uol.compasso.productms.service;
 
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
@@ -64,10 +65,9 @@ public class ProductService {
         return ProductMapper.listProductDTOS(this.productRepository.findAll(specification));
     }
 
-    public ProductDTO insertProduct(ProductDTO productDTO) {
-        Product product = this.productRepository.save(ProductMapper.DTOtoProduct(productDTO));
-        productDTO.setId(product.getId());
-        return productDTO;
+    public ProductDTO insertProduct(ProductCreateDTO productDTO) {
+        Product product = this.productRepository.save(ProductMapper.DTOCreatetoProduct(productDTO));
+        return ProductMapper.productToDTO(product);
     }
 
     public String deleteProduct(Long id) throws ProductNotFoundException {

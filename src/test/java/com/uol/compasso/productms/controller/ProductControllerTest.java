@@ -1,9 +1,11 @@
 package com.uol.compasso.productms.controller;
 
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
 import com.uol.compasso.productms.model.ProductSearchParam;
+import com.uol.compasso.productms.model.entity.Product;
 import com.uol.compasso.productms.service.ProductService;
 import com.uol.compasso.productms.util.GeneralMessages;
 import org.junit.jupiter.api.Assertions;
@@ -60,11 +62,14 @@ class ProductControllerTest {
 
     @Test
     void createProduct() {
-        ProductDTO productDTO = new ProductDTO();
+        ProductCreateDTO productDTO = new ProductCreateDTO();
         productDTO.setName("teste");
         productDTO.setDescription("desc");
         productDTO.setPrice(25D);
-        Mockito.when(this.productService.insertProduct(productDTO)).thenReturn(productDTO);
+
+
+        Mockito.when(this.productService.insertProduct(productDTO)).thenReturn(new ProductDTO());
+
         ResponseEntity<ProductDTO> response = this.productController.createProduct(productDTO);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
     }

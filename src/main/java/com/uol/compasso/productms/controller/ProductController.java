@@ -1,5 +1,6 @@
 package com.uol.compasso.productms.controller;
 
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO productDTO) {
         return ResponseEntity.status(201).body(this.productService.insertProduct(productDTO));
     }
 

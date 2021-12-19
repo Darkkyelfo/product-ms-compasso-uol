@@ -1,5 +1,6 @@
 package com.uol.compasso.productms.mapper;
 
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.model.entity.Product;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,11 @@ public class ProductMapper {
     }
 
     public static Product DTOtoProduct(ProductDTO product) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(product, Product.class);
+    }
+
+    public static Product DTOCreatetoProduct(ProductCreateDTO product) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(product, Product.class);
     }

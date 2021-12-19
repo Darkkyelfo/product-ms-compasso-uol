@@ -1,6 +1,7 @@
 package com.uol.compasso.productms.service;
 
 import com.uol.compasso.productms.UtilForTest;
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
@@ -32,6 +33,9 @@ class ProductServiceTest {
 
     @Captor
     ArgumentCaptor<Specification<Product>> specificationArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Product> productArgumentCaptor;
 
     @Test
     void getAllWithItem() {
@@ -118,20 +122,13 @@ class ProductServiceTest {
 
     @Test
     void insertProduct() {
-        ProductDTO productDTO = new ProductDTO();
+        ProductCreateDTO productDTO = new ProductCreateDTO();
         productDTO.setName("nome");
         productDTO.setDescription("descricao");
         productDTO.setPrice(25D);
 
-        Product product = new Product();
-        product.setId(1L);
-
-        Mockito.when(productRepository.save(ProductMapper.DTOtoProduct(productDTO))).thenReturn(product);
-
         this.productService.insertProduct(productDTO);
-        Assertions.assertEquals(productDTO.getId(), product.getId());
-
-
+        Mockito.verify(productRepository, Mockito.atLeast(1)).save(productArgumentCaptor.capture());
     }
 
     @Test

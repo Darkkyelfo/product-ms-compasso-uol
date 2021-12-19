@@ -1,6 +1,7 @@
 package com.uol.compasso.productms.mapper;
 
 import com.uol.compasso.productms.UtilForTest;
+import com.uol.compasso.productms.dto.ProductCreateDTO;
 import com.uol.compasso.productms.dto.ProductDTO;
 import com.uol.compasso.productms.model.entity.Product;
 import org.junit.jupiter.api.Assertions;
@@ -46,6 +47,18 @@ public class ProductMapperTest {
     }
 
     @Test
+    public void ProductCreatDTOToProductTestOK() {
+        ProductCreateDTO dto = new ProductCreateDTO();
+        dto.setDescription("descricao");
+        dto.setName("nome");
+        dto.setPrice(25D);
+
+        Product product = ProductMapper.DTOCreatetoProduct(dto);
+
+        UtilForTest.checkIfIsEquals(product, dto);
+    }
+
+    @Test
     public void productToDTOTestWhenNull() {
         ProductDTO dto = ProductMapper.productToDTO(null);
         Assertions.assertNull(dto.getId());
@@ -53,6 +66,7 @@ public class ProductMapperTest {
         Assertions.assertNull(dto.getDescription());
         Assertions.assertNull(dto.getPrice());
     }
+
 
     @Test
     public void listProductToDTOSTestOK() {
