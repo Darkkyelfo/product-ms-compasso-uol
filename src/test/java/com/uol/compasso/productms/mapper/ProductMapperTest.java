@@ -2,9 +2,7 @@ package com.uol.compasso.productms.mapper;
 
 import com.uol.compasso.productms.UtilForTest;
 import com.uol.compasso.productms.dto.ProductDTO;
-import com.uol.compasso.productms.mapper.ProductMapper;
 import com.uol.compasso.productms.model.entity.Product;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
