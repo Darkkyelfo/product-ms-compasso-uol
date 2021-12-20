@@ -9,6 +9,7 @@ produtos.
 - Maven 3.6.3 ou superior
 - Porta 9999 disponível
 - Docker (Opcional)
+- Docker Compose (Opcional)
 
 # Getting Started
 
@@ -35,10 +36,15 @@ O processo será executado na porta 9999
 Para executar aplicação dentro de um container docker basta executar o script:
 
 ```shell
-./run.sh
+  docker-compose up
 ```
 
-Esse script irá realizar um build do projeto e em seguida "containizar" aplicação e executa-la dentro do container.
+Esse script irá realizar a criação do container e execução da aplicação dentro dele.
+
+#### Atenção:
+A primeira execução via docker pode demorar,pois, serão baixados: o java 11, maven e as depedências do projeto para dentro do container.
+Esse processo pode demorar depêndendo da velocidade da conexão da internet.
+
 
 # Testando o projeto
 
