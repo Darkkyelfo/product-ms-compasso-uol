@@ -79,4 +79,49 @@ class ProductSearchParamTest {
         productSearchParam.setSearchText("");
         Assertions.assertFalse(productSearchParam.isSearchTextValid());
     }
+
+    @Test
+    void getPageNumFormatedWhenNull() {
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        Assertions.assertEquals(productSearchParam.getPageNumFormated(), 0);
+    }
+
+    @Test
+    void getPageNumFormatedWhenZeroOrMinus() {
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        productSearchParam.setPageNum(0L);
+        Assertions.assertEquals(productSearchParam.getPageNumFormated(), 0);
+        productSearchParam.setPageNum(-5L);
+        Assertions.assertEquals(productSearchParam.getPageNumFormated(), 0);
+    }
+
+    @Test
+    void getPageNumFormatedWhenGreaterZero() {
+        Long page = 5L;
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        productSearchParam.setPageNum(page);
+        Assertions.assertEquals(productSearchParam.getPageNumFormated(), page - 1);
+    }
+
+    @Test
+    void hasPageWhenGreaterThanZero() {
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        productSearchParam.setPageNum(1L);
+        Assertions.assertTrue(productSearchParam.hasPage());
+    }
+
+    @Test
+    void hasPageWhenLessOrEqualZero() {
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        productSearchParam.setPageNum(0L);
+        Assertions.assertFalse(productSearchParam.hasPage());
+        productSearchParam.setPageNum(-2L);
+        Assertions.assertFalse(productSearchParam.hasPage());
+    }
+
+    @Test
+    void hasPageWhenIsNull() {
+        ProductSearchParam productSearchParam = new ProductSearchParam();
+        Assertions.assertFalse(productSearchParam.hasPage());
+    }
 }

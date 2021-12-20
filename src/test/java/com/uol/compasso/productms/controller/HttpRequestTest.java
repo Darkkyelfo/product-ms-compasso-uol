@@ -1,7 +1,7 @@
 package com.uol.compasso.productms.controller;
 
 import com.google.gson.Gson;
-import com.uol.compasso.productms.dto.ProductDTO;
+import com.uol.compasso.productms.dto.ProductResponseDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
 import com.uol.compasso.productms.model.ProductSearchParam;
@@ -52,8 +52,8 @@ public class HttpRequestTest {
     @Test
     void createProductCheckDTO() throws Exception {
         Gson gson = new Gson();
-        ArrayList<ProductDTO> productDTOS = this.generateListForTest();
-        for (ProductDTO dto : productDTOS) {
+        ArrayList<ProductResponseDTO> productDTOS = this.generateListForTest();
+        for (ProductResponseDTO dto : productDTOS) {
             mvc.perform(post("/products")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(gson.toJson(dto)))
@@ -65,8 +65,8 @@ public class HttpRequestTest {
     @Test
     void updateProductCheckDTO() throws Exception {
         Gson gson = new Gson();
-        ArrayList<ProductDTO> productDTOS = this.generateListForTest();
-        for (ProductDTO dto : productDTOS) {
+        ArrayList<ProductResponseDTO> productDTOS = this.generateListForTest();
+        for (ProductResponseDTO dto : productDTOS) {
             mvc.perform(post("/products")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(gson.toJson(dto)))
@@ -85,21 +85,21 @@ public class HttpRequestTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ParamsInvalidException));
     }
 
-    private ArrayList<ProductDTO> generateListForTest() {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
-        ProductDTO productDTO1 = new ProductDTO();
+    private ArrayList<ProductResponseDTO> generateListForTest() {
+        ArrayList<ProductResponseDTO> productDTOS = new ArrayList<>();
+        ProductResponseDTO productDTO1 = new ProductResponseDTO();
         productDTO1.setName("name");
         productDTO1.setDescription("description");
         //Teste
-        ProductDTO productDTO2 = new ProductDTO();
+        ProductResponseDTO productDTO2 = new ProductResponseDTO();
         productDTO2.setPrice(10D);
         productDTO2.setDescription("description");
 
-        ProductDTO productDTO3 = new ProductDTO();
+        ProductResponseDTO productDTO3 = new ProductResponseDTO();
         productDTO3.setPrice(10D);
         productDTO3.setName("name");
 
-        productDTOS.add(new ProductDTO());
+        productDTOS.add(new ProductResponseDTO());
         productDTOS.add(productDTO1);
         productDTOS.add(productDTO2);
         productDTOS.add(productDTO3);

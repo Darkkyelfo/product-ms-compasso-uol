@@ -1,11 +1,10 @@
 package com.uol.compasso.productms.service;
 
 import com.uol.compasso.productms.UtilForTest;
-import com.uol.compasso.productms.dto.ProductCreateDTO;
-import com.uol.compasso.productms.dto.ProductDTO;
+import com.uol.compasso.productms.dto.ProductRequestDTO;
+import com.uol.compasso.productms.dto.ProductResponseDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
-import com.uol.compasso.productms.mapper.ProductMapper;
 import com.uol.compasso.productms.model.ProductSearchParam;
 import com.uol.compasso.productms.model.entity.Product;
 import com.uol.compasso.productms.repository.product.ProductRepository;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
@@ -41,14 +41,14 @@ class ProductServiceTest {
     void getAllWithItem() {
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product());
-        Mockito.when(this.productRepository.findAll()).thenReturn(products);
+        Mockito.when(this.productRepository.findAll(Sort.by("id"))).thenReturn(products);
         Assertions.assertEquals(this.productService.getAll().size(), products.size());
     }
 
     @Test
     void getAllEmpity() {
         ArrayList<Product> products = new ArrayList<>();
-        Mockito.when(this.productRepository.findAll()).thenReturn(products);
+        Mockito.when(this.productRepository.findAll(Sort.by("id"))).thenReturn(products);
         Assertions.assertEquals(this.productService.getAll().size(), products.size());
     }
 
@@ -61,7 +61,7 @@ class ProductServiceTest {
         product.setName("nome");
         product.setPrice(25D);
         Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
-        ProductDTO dto = this.productService.getOne(id);
+        ProductResponseDTO dto = this.productService.getOne(id);
         UtilForTest.checkIfIsEquals(product, dto);
 
 
@@ -120,7 +120,7 @@ class ProductServiceTest {
 
     @Test
     void insertProduct() {
-        ProductCreateDTO productDTO = new ProductCreateDTO();
+        ProductRequestDTO productDTO = new ProductRequestDTO();
         productDTO.setName("nome");
         productDTO.setDescription("descricao");
         productDTO.setPrice(25D);
@@ -149,14 +149,14 @@ class ProductServiceTest {
     void updateProductWhenNotExists() {
         Long id = 1L;
         Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
-        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.updateProduct(id, new ProductCreateDTO()), id.toString());
+        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.updateProduct(id, new ProductRequestDTO()), id.toString());
     }
 
     @Test
     void updateProductWhenExists() throws ProductNotFoundException {
         Long id = 1L;
 
-        ProductCreateDTO productDTO = new ProductCreateDTO();
+        ProductRequestDTO productDTO = new ProductRequestDTO();
         productDTO.setPrice(25D);
         productDTO.setDescription("desc");
         productDTO.setName("nome");
@@ -169,7 +169,7 @@ class ProductServiceTest {
 
         Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
         Mockito.when(productRepository.save(product)).thenReturn(product);
-        ProductDTO resultado = this.productService.updateProduct(id, productDTO);
+        ProductResponseDTO resultado = this.productService.updateProduct(id, productDTO);
         Assertions.assertEquals(resultado.getId(), id);
         UtilForTest.checkIfIsEquals(product, productDTO);
     }
@@ -178,7 +178,7 @@ class ProductServiceTest {
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product());
         Mockito.when(productRepository.findAll(this.specificationArgumentCaptor.capture())).thenReturn(products);
-        List<ProductDTO> productDTOS = productService.searchItens(productSearchParam);
+        List<ProductResponseDTO> productDTOS = productService.searchItens(productSearchParam);
         Assertions.assertEquals(productDTOS.size(), products.size());
     }
 

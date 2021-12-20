@@ -1,8 +1,8 @@
 package com.uol.compasso.productms.mapper;
 
 import com.uol.compasso.productms.UtilForTest;
-import com.uol.compasso.productms.dto.ProductCreateDTO;
-import com.uol.compasso.productms.dto.ProductDTO;
+import com.uol.compasso.productms.dto.ProductRequestDTO;
+import com.uol.compasso.productms.dto.ProductResponseDTO;
 import com.uol.compasso.productms.model.entity.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,14 +41,14 @@ public class ProductMapperTest {
     public void productToDTOTestOK() {
         Product product = this.productList.get(0);
 
-        ProductDTO dto = ProductMapper.productToDTO(product);
+        ProductResponseDTO dto = ProductMapper.productToDTO(product);
 
         UtilForTest.checkIfIsEquals(product, dto);
     }
 
     @Test
     public void ProductCreatDTOToProductTestOK() {
-        ProductCreateDTO dto = new ProductCreateDTO();
+        ProductRequestDTO dto = new ProductRequestDTO();
         dto.setDescription("descricao");
         dto.setName("nome");
         dto.setPrice(25D);
@@ -60,7 +60,7 @@ public class ProductMapperTest {
 
     @Test
     public void productToDTOTestWhenNull() {
-        ProductDTO dto = ProductMapper.productToDTO(null);
+        ProductResponseDTO dto = ProductMapper.productToDTO(null);
         Assertions.assertNull(dto.getId());
         Assertions.assertNull(dto.getName());
         Assertions.assertNull(dto.getDescription());
@@ -70,7 +70,7 @@ public class ProductMapperTest {
 
     @Test
     public void listProductToDTOSTestOK() {
-        List<ProductDTO> dtos = ProductMapper.listProductDTOS(this.productList);
+        List<ProductResponseDTO> dtos = ProductMapper.listProductDTOS(this.productList);
         Assertions.assertEquals(dtos.size(), this.productList.size());
         for (int i = 0; i < this.productList.size(); i++) {
             UtilForTest.checkIfIsEquals(this.productList.get(i), dtos.get(i));

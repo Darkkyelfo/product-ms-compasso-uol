@@ -1,11 +1,10 @@
 package com.uol.compasso.productms.controller;
 
-import com.uol.compasso.productms.dto.ProductCreateDTO;
-import com.uol.compasso.productms.dto.ProductDTO;
+import com.uol.compasso.productms.dto.ProductRequestDTO;
+import com.uol.compasso.productms.dto.ProductResponseDTO;
 import com.uol.compasso.productms.exception.ParamsInvalidException;
 import com.uol.compasso.productms.exception.ProductNotFoundException;
 import com.uol.compasso.productms.model.ProductSearchParam;
-import com.uol.compasso.productms.model.entity.Product;
 import com.uol.compasso.productms.service.ProductService;
 import com.uol.compasso.productms.util.GeneralMessages;
 import org.junit.jupiter.api.Assertions;
@@ -34,10 +33,10 @@ class ProductControllerTest {
 
     @Test
     void listAllProducts() {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
-        productDTOS.add(new ProductDTO());
+        ArrayList<ProductResponseDTO> productDTOS = new ArrayList<>();
+        productDTOS.add(new ProductResponseDTO());
         Mockito.when(this.productService.getAll()).thenReturn(productDTOS);
-        ResponseEntity<List<ProductDTO>> response = this.productController.listAllProducts();
+        ResponseEntity<List<ProductResponseDTO>> response = this.productController.listAllProducts(0L);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assertions.assertEquals(response.getBody().size(), productDTOS.size());
     }
@@ -45,32 +44,32 @@ class ProductControllerTest {
     @Test
     void getOne() throws ProductNotFoundException {
         Long id = 1L;
-        Mockito.when(this.productService.getOne(id)).thenReturn(new ProductDTO());
-        ResponseEntity<ProductDTO> response = this.productController.getOne(id);
+        Mockito.when(this.productService.getOne(id)).thenReturn(new ProductResponseDTO());
+        ResponseEntity<ProductResponseDTO> response = this.productController.getOne(id);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
     void searchProducts() throws ParamsInvalidException {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
-        productDTOS.add(new ProductDTO());
+        ArrayList<ProductResponseDTO> productDTOS = new ArrayList<>();
+        productDTOS.add(new ProductResponseDTO());
         Mockito.when(this.productService.searchItens(paramArgumentCaptor.capture())).thenReturn(productDTOS);
-        ResponseEntity<List<ProductDTO>> response = this.productController.searchProducts("oi", 1D, 2D);
+        ResponseEntity<List<ProductResponseDTO>> response = this.productController.searchProducts("oi", 1D, 2D, null);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assertions.assertEquals(response.getBody().size(), productDTOS.size());
     }
 
     @Test
     void createProduct() {
-        ProductCreateDTO productDTO = new ProductCreateDTO();
+        ProductRequestDTO productDTO = new ProductRequestDTO();
         productDTO.setName("teste");
         productDTO.setDescription("desc");
         productDTO.setPrice(25D);
 
 
-        Mockito.when(this.productService.insertProduct(productDTO)).thenReturn(new ProductDTO());
+        Mockito.when(this.productService.insertProduct(productDTO)).thenReturn(new ProductResponseDTO());
 
-        ResponseEntity<ProductDTO> response = this.productController.createProduct(productDTO);
+        ResponseEntity<ProductResponseDTO> response = this.productController.createProduct(productDTO);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
     }
 
@@ -86,12 +85,12 @@ class ProductControllerTest {
     @Test
     void updateProduct() throws ProductNotFoundException {
         Long id = 1L;
-        ProductCreateDTO productDTO = new ProductCreateDTO();
+        ProductRequestDTO productDTO = new ProductRequestDTO();
         productDTO.setName("teste");
         productDTO.setDescription("desc");
         productDTO.setPrice(25D);
-        Mockito.when(this.productService.updateProduct(id, productDTO)).thenReturn(new ProductDTO());
-        ResponseEntity<ProductDTO> response = this.productController.updateProduct(id, productDTO);
+        Mockito.when(this.productService.updateProduct(id, productDTO)).thenReturn(new ProductResponseDTO());
+        ResponseEntity<ProductResponseDTO> response = this.productController.updateProduct(id, productDTO);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 }

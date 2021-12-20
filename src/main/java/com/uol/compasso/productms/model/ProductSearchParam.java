@@ -8,6 +8,8 @@ public class ProductSearchParam {
     private String searchText;
     private Double minPrice;
     private Double maxPrice;
+    private Long pageNum;
+    private int pageSize = 5;
 
     public boolean isValid() {
         return this.isSearchTextValid() || this.isMaxPriceValid() || this.isMinPriceValid();
@@ -34,6 +36,18 @@ public class ProductSearchParam {
 
     public boolean isSearchTextValid() {
         return this.getSearchText() != null && !this.getSearchText().isEmpty();
+    }
+
+    public boolean hasPage() {
+        return this.getPageNum() != null && this.getPageNum() > 0;
+    }
+
+
+    public int getPageNumFormated() {
+        if (!this.hasPage()) {
+            return 0;
+        }
+        return this.getPageNum().intValue() - 1;
     }
 
 }

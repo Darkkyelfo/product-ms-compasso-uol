@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class ProductDTO {
+public class ProductResponseDTO {
     @Nullable
     private Long id;
     @NotBlank(message = "The field name cannot be null or blanked")

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class ProductCreateDTO {
+public class ProductRequestDTO {
     @NotBlank(message = "The field name cannot be null or blanked")
     private String name;
     @NotBlank(message = "The field description cannot be null or blanked")
