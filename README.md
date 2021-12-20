@@ -1,4 +1,4 @@
-# Read Me First
+# LEIA-ME
 
 Mini projeto de desafio para ingressar na compasso uol do candido Raul Sousa. Consiste em uma API Rest para catálogo de
 produtos.
@@ -36,7 +36,7 @@ O processo será executado na porta 9999
 Para executar aplicação dentro de um container docker basta executar o script:
 
 ```shell
-  docker-compose up
+docker-compose up
 ```
 
 Esse script irá realizar a criação do container e execução da aplicação dentro dele.
