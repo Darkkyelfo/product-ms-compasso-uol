@@ -2,8 +2,7 @@
 
 Mini projeto de desafio para ingressar na compasso uol do candido Raul Sousa.
 
-
-### Requesitos:
+### Requisitos:
 
 - JAVA 11
 - Maven 3.6.3 ou superior
@@ -20,7 +19,7 @@ O projeto pode ser iniciado utilizando os seguintes comandos:
 
 ### Iniciando via Docker
 
-basta executar o script: ./run.sh Esse comando irá realizar o build do .jar e do container e em seguinda executa-lo
+basta executar o script: ./run.sh Esse comando irá realizar o build do .jar e do container e em seguinda executa-lo na porta 9999
 
 # Testando o projeto
 
@@ -36,6 +35,6 @@ basta executar o script: ./run.sh Esse comando irá realizar o build do .jar e d
 - DELETE http://localhost:9999/products/{id}
 
 #Referências
-https://bitbucket.org/RecrutamentoDesafios/desafio-java-springboot/src/master/
+[https://bitbucket.org/RecrutamentoDesafios/desafio-java-springboot/src/master/](https://bitbucket.org/RecrutamentoDesafios/desafio-java-springboot/src/master/)
 
 
