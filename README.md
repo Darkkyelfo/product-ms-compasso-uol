@@ -20,7 +20,7 @@ O projeto pode ser iniciado utilizando os seguintes comandos:
 
 ### Iniciando via Docker
 
-basta executar o script: ./run.sh Esse comando irá realizar o build do container e em seguinda executa-lo
+basta executar o script: ./run.sh Esse comando irá realizar o build do .jar e do container e em seguinda executa-lo
 
 # Testando o projeto
 

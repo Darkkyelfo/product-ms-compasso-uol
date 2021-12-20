@@ -70,10 +70,8 @@ class ProductServiceTest {
     @Test
     public void getOneWhenNotExist() {
         Long id = 888L;
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.ofNullable(null));
-        Assertions.assertThrows(ProductNotFoundException.class, () -> {
-            this.productService.getOne(888L);
-        }, id.toString());
+        Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.getOne(id), id.toString());
 
     }
 
@@ -134,10 +132,8 @@ class ProductServiceTest {
     @Test
     void deleteProductWhenNotExist() {
         Long id = 1L;
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.ofNullable(null));
-        Assertions.assertThrows(ProductNotFoundException.class, () -> {
-            this.productService.deleteProduct(id);
-        }, id.toString());
+        Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.deleteProduct(id), id.toString());
     }
 
     @Test
@@ -152,30 +148,29 @@ class ProductServiceTest {
     @Test
     void updateProductWhenNotExists() {
         Long id = 1L;
-        Mockito.when(productRepository.findById(id)).thenReturn(Optional.ofNullable(null));
-        Assertions.assertThrows(ProductNotFoundException.class, () -> {
-            this.productService.updateProduct(id, new ProductDTO());
-        }, id.toString());
+        Mockito.when(productRepository.findById(id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.updateProduct(id, new ProductCreateDTO()), id.toString());
     }
 
     @Test
     void updateProductWhenExists() throws ProductNotFoundException {
         Long id = 1L;
 
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(id);
+        ProductCreateDTO productDTO = new ProductCreateDTO();
         productDTO.setPrice(25D);
         productDTO.setDescription("desc");
         productDTO.setName("nome");
 
         Product product = new Product();
-        product.setId(productDTO.getId());
+        product.setId(id);
         product.setDescription("descricao diferente");
         product.setName("outro nome");
         product.setPrice(50D);
 
         Mockito.when(productRepository.findById(id)).thenReturn(Optional.of(product));
-        this.productService.updateProduct(id, productDTO);
+        Mockito.when(productRepository.save(product)).thenReturn(product);
+        ProductDTO resultado = this.productService.updateProduct(id, productDTO);
+        Assertions.assertEquals(resultado.getId(), id);
         UtilForTest.checkIfIsEquals(product, productDTO);
     }
 
@@ -188,9 +183,7 @@ class ProductServiceTest {
     }
 
     private void searchMockTestInvalid(ProductSearchParam productSearchParam) {
-        Assertions.assertThrows(ParamsInvalidException.class, () -> {
-            this.productService.searchItens(productSearchParam);
-        }, "invalid");
+        Assertions.assertThrows(ParamsInvalidException.class, () -> this.productService.searchItens(productSearchParam), "invalid");
     }
 
 

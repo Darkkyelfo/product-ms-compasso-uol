@@ -86,12 +86,11 @@ class ProductControllerTest {
     @Test
     void updateProduct() throws ProductNotFoundException {
         Long id = 1L;
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(id);
+        ProductCreateDTO productDTO = new ProductCreateDTO();
         productDTO.setName("teste");
         productDTO.setDescription("desc");
         productDTO.setPrice(25D);
-        Mockito.when(this.productService.updateProduct(id, productDTO)).thenReturn(productDTO);
+        Mockito.when(this.productService.updateProduct(id, productDTO)).thenReturn(new ProductDTO());
         ResponseEntity<ProductDTO> response = this.productController.updateProduct(id, productDTO);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }

@@ -79,7 +79,7 @@ public class ProductService {
         return SUCCESS_TO_DELETE.get();
     }
 
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) throws ProductNotFoundException {
+    public ProductDTO updateProduct(Long id, ProductCreateDTO productDTO) throws ProductNotFoundException {
         Product product = this.productRepository.findById(id).orElse(null);
         if (product == null) {
             throw new ProductNotFoundException(id);
@@ -87,7 +87,8 @@ public class ProductService {
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
         product.setDescription(productDTO.getDescription());
-        return ProductMapper.productToDTO(this.productRepository.save(product));
+        product = this.productRepository.save(product);
+        return ProductMapper.productToDTO(product);
 
     }
 }
