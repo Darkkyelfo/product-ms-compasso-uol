@@ -17,6 +17,8 @@ O projeto pode ser iniciado utilizando os seguintes comandos:
 - mvn clean install 
 - java -jar target/product-ms-1.0.0.jar
 
+O processo será executado na porta 9999
+
 ### Iniciando via Docker
 
 basta executar o script: ./run.sh Esse comando irá realizar o build do .jar e do container e em seguinda executa-lo na porta 9999
