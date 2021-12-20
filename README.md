@@ -13,7 +13,18 @@ produtos.
 
 # Getting Started
 
-### Iniciando localmente utilizando o maven e java
+## Baixando o projeto
+
+### Clonando repositório do github
+```shell
+git clone https://github.com/Darkkyelfo/product-ms-compasso-uol.git
+```
+### Acessando pasta do projeto
+```shell
+cd <CAMINHO>/product-ms-compasso-uol
+```
+
+## Iniciando localmente utilizando o maven/java
 
 O projeto pode ser iniciado utilizando os seguintes comandos:
 
@@ -31,7 +42,7 @@ mvn clean package spring-boot:run
 
 O processo será executado na porta 9999
 
-### Iniciando via Docker
+## Iniciando via Docker
 
 Para executar aplicação dentro de um container docker basta executar o script:
 
@@ -55,6 +66,8 @@ Esse processo pode demorar depêndendo da velocidade da conexão da internet.
 ### H2-console
 
 [http://localhost:9999/h2-console](http://localhost:9999/h2-console)
+
+Em JDBC URL coloque: **jdbc:h2:mem:testdb**
 
 ### EndPoints
 
